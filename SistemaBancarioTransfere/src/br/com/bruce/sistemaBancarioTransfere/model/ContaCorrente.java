@@ -12,7 +12,7 @@ public class ContaCorrente {
 		this.ativo = ativo;
 	}
 
-	public int getIdContaCorrente() {
+	public int getIdContaCorrente()  {
 		return idContaCorrente;
 	}
 
