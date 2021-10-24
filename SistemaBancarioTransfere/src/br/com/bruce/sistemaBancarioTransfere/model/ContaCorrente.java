@@ -4,12 +4,12 @@ public class ContaCorrente {
 
 	private int idContaCorrente;
 	private double saldo;
-	private boolean ativo;
+	private boolean statusConta;
 
-	public ContaCorrente(int idContaCorrente, double saldo, boolean ativo) {
+	public ContaCorrente(int idContaCorrente, double saldo, boolean statusConta) {
 		this.idContaCorrente = idContaCorrente;
 		this.saldo = saldo;
-		this.ativo = ativo;
+		this.statusConta = statusConta;
 	}
 
 	public int getIdContaCorrente()  {
@@ -28,17 +28,17 @@ public class ContaCorrente {
 		this.saldo = saldo;
 	}
 
-	public boolean isAtivo() {
-		return ativo;
+	public boolean getStatusConta() {
+		return statusConta;
 	}
 
-	public void setAtivo(boolean ativo) {
-		this.ativo = ativo;
+	public void setStatusConta(boolean statusConta) {
+		this.statusConta = statusConta;
 	}
 
 	@Override
 	public String toString() {
-		return "idContaCorrente: " + idContaCorrente + "/n saldo: " + saldo + "/n ativo: " + ativo;
+		return "idContaCorrente: " + idContaCorrente + "/n saldo: " + saldo + "/n statusConta: " + statusConta;
 	}
 
 }

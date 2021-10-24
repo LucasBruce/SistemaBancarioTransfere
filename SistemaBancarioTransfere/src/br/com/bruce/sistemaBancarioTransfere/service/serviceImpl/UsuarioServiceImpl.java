@@ -3,6 +3,7 @@ package br.com.bruce.sistemaBancarioTransfere.service.serviceImpl;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.bruce.sistemaBancarioTransfere.exceptionHandler.IdadeNaoPermitidaException;
 import br.com.bruce.sistemaBancarioTransfere.model.Usuario;
 import br.com.bruce.sistemaBancarioTransfere.service.UsuarioService;
 
@@ -22,7 +23,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	}
 
 	/*
-	 * O metodo adicionarUsuario passa como parametro uma instancia de Usuario
+	 * O metodo adicionarUsuario recebe como parametro uma instancia de Usuario
 	 * instancia essa que sera adicionado na lista Usuarios e por fim retorna a
 	 * instancia salva
 	 */
@@ -43,10 +44,11 @@ public class UsuarioServiceImpl implements UsuarioService {
 		for (Usuario user : usuarios) {
 			if (user.getId() == id) {
 				usuario = user;
-				break;
+
+				return usuario;
 			}
 		}
-		return usuario;
+		return null;
 
 	}
 
@@ -57,33 +59,60 @@ public class UsuarioServiceImpl implements UsuarioService {
 	 */
 	@Override
 	public boolean removerUsuario(int id) {
-       boolean sucesso = false;
-       for(Usuario usuario:usuarios) {
-    	   if(usuario.getId() == id) {
-    		   usuarios.remove(usuario);
-    		   sucesso = true;
-    	   }
-       }
-		
-		 return sucesso;
+		boolean sucesso = false;
+		Usuario usuario = pesquisarUsuario(id);
+		usuarios.remove(usuario);
+		sucesso = usuarios.contains(usuario);
+
+		return sucesso;
+
 	}
 
+	/*
+	 * O metodo desativarUsuario tem como funcao mudar o status do usuario e conta
+	 * especifica, conta essa que esta atrelada ao usuario que achamos a partir do
+	 * id passado como parametro
+	 */
 	@Override
 	public boolean desativarUsuario(int id) {
+		boolean status = false;
+		Usuario usuario = pesquisarUsuario(id);
+		if (usuario.getStatus() == true) {
+			usuario.setStatus(status);
+			usuario.setStatusConta(status);
+			status = usuario.getStatus();
 
-		return false;
+		}
+		return status;
 	}
 
+	/*
+	 * O metodo ativarUsuario ira reativar o usuario e sua conta recebe o id como
+	 * parametro para pesquisar o usuario
+	 */
 	@Override
 	public boolean ativarUsuario(int id) {
+		boolean status = false;
+		Usuario usuario = pesquisarUsuario(id);
+		if (usuario.getStatus() == status) {
+			usuario.setStatus(true);
+			usuario.setStatusConta(true);
+			status = usuario.getStatus();
 
-		return false;
+		}
+		return status;
 	}
 
+	/*
+	 * O metodo validarIdade tem como funcao validar a idade do usuario que esta se
+	 * cadastrando e passado idade como parametro para ser verificada
+	 */
 	@Override
-	public boolean validarIdade(int idade) {
+	public boolean validarIdade(int idade) throws IdadeNaoPermitidaException {
+		if (idade < 18 || idade > 65)
+			throw new IdadeNaoPermitidaException(IdadeNaoPermitidaException.MSG_IDADE_INVALIDA);
+		return true;
 
-		return false;
 	}
 
 }

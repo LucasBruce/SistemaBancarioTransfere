@@ -2,6 +2,7 @@ package br.com.bruce.sistemaBancarioTransfere.service;
 
 import java.util.List;
 
+import br.com.bruce.sistemaBancarioTransfere.exceptionHandler.IdadeNaoPermitidaException;
 import br.com.bruce.sistemaBancarioTransfere.model.Usuario;
 
 /*A interface UsuarioService foi criada para organizar 
@@ -22,5 +23,5 @@ public interface UsuarioService {
 
 	boolean ativarUsuario(int id);
 
-	boolean validarIdade(int idade);
+	boolean validarIdade(int idade) throws IdadeNaoPermitidaException;
 }
