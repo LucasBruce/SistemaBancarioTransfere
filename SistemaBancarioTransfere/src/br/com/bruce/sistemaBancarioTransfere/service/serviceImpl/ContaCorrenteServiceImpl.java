@@ -15,13 +15,8 @@ public class ContaCorrenteServiceImpl implements ContaCorrenteService {
 	/* Criando a lista de contas correntes */
 	private List<ContaCorrente> contas = new ArrayList<>();
 
-	private List<Usuario> usuarios = new ArrayList<>();
-
 	private UsuarioServiceImpl usuarioService;
 
-	public ContaCorrenteServiceImpl(List<Usuario> usuarios) {
-		this.usuarios = usuarios;
-	}
 
 	/* Metodo listarContas me retorna a lista de contas criada anteriormente */
 	@Override
@@ -67,6 +62,10 @@ public class ContaCorrenteServiceImpl implements ContaCorrenteService {
 		return sucesso;
 	}
 
+	/*
+	 * o metodo transfere deduz o valor passado como parametro da conta origem e
+	 * adiciona na conta destino
+	 */
 	@Override
 	public boolean transfere(double valor, int idUsuarioOrigem, int idUsuarioDestino) {
 		usuarioService = new UsuarioServiceImpl();
