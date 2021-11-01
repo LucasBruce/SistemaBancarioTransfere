@@ -5,7 +5,7 @@ de acordo com o plano de negocio bancario
 @autor: Lucas Bruce
 */
 
-public class Usuario extends ContaCorrente {
+public class Usuario {
 
 	private int id;
 	private String nome;
@@ -13,35 +13,28 @@ public class Usuario extends ContaCorrente {
 	private String email;
 	private boolean status;
 	private int idContaCorrente;
-	private double saldo;
 
 	/*
 	 * Construtor da classe usuario além de receber os parametros ele tambem invoca
 	 * o construtor da classe pai que e ContaCorrente passando como parametros os dados
 	 * para a classe pai
 	 */
-	public Usuario(int id, String nome, int idade, String email, boolean status, int idContaCorrente, double saldo) {
-		super(idContaCorrente, saldo, status);
+	public Usuario(int id, String nome, int idade, String email, boolean status, int idContaCorrente) {
+		
 		this.id = id;
 		this.nome = nome;
 		this.idade = idade;
 		this.email = email;
 		this.status = status;
 		this.idContaCorrente = idContaCorrente;
-
+        
 	}
 
 	/*
 	 * secao dos gettes e settes onde serao atualizados os valores dos atributos da
 	 * classe por meio dos settes e os valores poderao retorna por meio dos gettes
 	 */
-	public double getSaldo() {
-		return saldo;
-	}
-
-	public void setSaldo(double saldo) {
-		this.saldo = saldo;
-	}
+	
 
 	public int getId() {
 		return id;
@@ -96,9 +89,8 @@ public class Usuario extends ContaCorrente {
 	 */
 	@Override
 	public String toString() {
-		return "id:" + id + ", " + "\n nome:" + nome + "\n idade: " + idade + "\n email: " + email + "\n status: "
-				+ status + "\n idContaCorrent:" + idContaCorrente + "\n saldo:" + saldo + "\n toString()="
-				+ super.toString() + "]";
+		return "\n id:" + id + "\n nome:" + nome + "\n idade: " + idade + "\n email: " + email + "\n status: "
+				+ (status?"Ativo":"Inativo") + "\n idContaCorrent:" + idContaCorrente+"\n";
 	}
 
 }

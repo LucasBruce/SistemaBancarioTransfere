@@ -1,9 +1,12 @@
 package br.com.bruce.sistemaBancarioTransfere.service.serviceImpl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import br.com.bruce.sistemaBancarioTransfere.exceptionHandler.IdadeNaoPermitidaException;
+import br.com.bruce.sistemaBancarioTransfere.model.ContaCorrente;
 import br.com.bruce.sistemaBancarioTransfere.model.Usuario;
 import br.com.bruce.sistemaBancarioTransfere.service.UsuarioService;
 
@@ -14,7 +17,13 @@ import br.com.bruce.sistemaBancarioTransfere.service.UsuarioService;
 public class UsuarioServiceImpl implements UsuarioService {
 
 //	Criando a lista de usuarios
-	private List<Usuario> usuarios = new ArrayList<>();
+	private List<Usuario> usuarios;
+	private List<ContaCorrente> contas;
+
+	public UsuarioServiceImpl(List<Usuario> usuarios, List<ContaCorrente> contas) {
+		this.usuarios = usuarios;
+		this.contas = contas;
+	}
 
 	/* o metodo listarUsuario retorna uma lista de usuarios para quem o invocou */
 	@Override
@@ -40,7 +49,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	 */
 	@Override
 	public Usuario pesquisarUsuario(int id) {
-		Usuario usuario = new Usuario(id, null, id, null, false, id, id);
+		Usuario usuario = new Usuario(id, null, id, null, false, id);
 		for (Usuario user : usuarios) {
 			if (user.getId() == id) {
 				usuario = user;
@@ -58,14 +67,16 @@ public class UsuarioServiceImpl implements UsuarioService {
 	 * verificar se o usuario foi deletado ou nao
 	 */
 	@Override
-	public boolean removerUsuario(int id) {
-		boolean sucesso = false;
-		Usuario usuario = pesquisarUsuario(id);
-		usuarios.remove(usuario);
-		sucesso = usuarios.contains(usuario);
-
-		return sucesso;
-
+	public boolean remover(int id) {
+		boolean removido = false;
+		for(Usuario usuario:usuarios) {
+			if(usuario.getId() == id) {
+				usuarios.remove(usuario);
+				removido = usuarios.contains(usuario);
+				return removido;
+			}
+		}
+		return removido;
 	}
 
 	/*
@@ -76,11 +87,15 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Override
 	public boolean desativarUsuario(int id) {
 		boolean status = false;
+		ContaCorrenteServiceImpl contaService = new ContaCorrenteServiceImpl(contas, usuarios);
 		Usuario usuario = pesquisarUsuario(id);
+		ContaCorrente conta = contaService.pesquisarConta(id);
 		if (usuario.getStatus() == true) {
 			usuario.setStatus(status);
-			usuario.setStatusConta(status);
-			status = usuario.getStatus();
+
+		}
+		if (conta.getStatusConta() == true) {
+			conta.setStatusConta(status);
 
 		}
 		return status;
@@ -93,11 +108,16 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Override
 	public boolean ativarUsuario(int id) {
 		boolean status = false;
+		ContaCorrenteServiceImpl contaService = new ContaCorrenteServiceImpl(contas, usuarios);
 		Usuario usuario = pesquisarUsuario(id);
-		if (usuario.getStatus() == status) {
+		ContaCorrente conta = contaService.pesquisarConta(id);
+		if (usuario.getStatus() == false) {
 			usuario.setStatus(true);
-			usuario.setStatusConta(true);
 			status = usuario.getStatus();
+
+		}
+		if (conta.getStatusConta() == false) {
+			conta.setStatusConta(true);
 
 		}
 		return status;

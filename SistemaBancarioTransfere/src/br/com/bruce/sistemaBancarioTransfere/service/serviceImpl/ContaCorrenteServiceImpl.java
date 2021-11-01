@@ -1,6 +1,5 @@
 package br.com.bruce.sistemaBancarioTransfere.service.serviceImpl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import br.com.bruce.sistemaBancarioTransfere.model.ContaCorrente;
@@ -13,10 +12,14 @@ os metodos
 public class ContaCorrenteServiceImpl implements ContaCorrenteService {
 
 	/* Criando a lista de contas correntes */
-	private List<ContaCorrente> contas = new ArrayList<>();
+	private List<ContaCorrente> contas;
 
-	private UsuarioServiceImpl usuarioService;
+	private List<Usuario> usuarios;
 
+	public ContaCorrenteServiceImpl(List<ContaCorrente> contas, List<Usuario> usuarios) {
+		this.contas = contas;
+		this.usuarios = usuarios;
+	}
 
 	/* Metodo listarContas me retorna a lista de contas criada anteriormente */
 	@Override
@@ -29,9 +32,10 @@ public class ContaCorrenteServiceImpl implements ContaCorrenteService {
 	 * adicionada na lista de contas
 	 */
 	@Override
-	public ContaCorrente adicionarConta(ContaCorrente contaCorrente) {
+	public boolean adicionarConta(ContaCorrente contaCorrente) {
 		contas.add(contaCorrente);
-		return contaCorrente;
+		boolean contaAdicionada = contas.contains(contaCorrente);
+		return contaAdicionada;
 	}
 
 	/*
@@ -41,12 +45,14 @@ public class ContaCorrenteServiceImpl implements ContaCorrenteService {
 	 */
 	@Override
 	public ContaCorrente pesquisarConta(int idConta) {
+		ContaCorrente contaAchada = new ContaCorrente(0, 0, false);
 		for (ContaCorrente conta : contas) {
 			if (conta.getIdContaCorrente() == idConta) {
-				return conta;
+				contaAchada = conta;
+				break;
 			}
 		}
-		return null;
+		return contaAchada;
 	}
 
 	/*
@@ -55,11 +61,19 @@ public class ContaCorrenteServiceImpl implements ContaCorrenteService {
 	 */
 	@Override
 	public boolean removerConta(int idConta) {
-		boolean sucesso = false;
-		ContaCorrente conta = pesquisarConta(idConta);
-		contas.remove(conta);
-		sucesso = contas.contains(conta);
-		return sucesso;
+		
+			boolean clienteRemovido = false;
+			
+			for (int i = 0; i < this.contas.size(); i++) {
+				ContaCorrente conta = contas.get(i);
+				if(conta.getIdContaCorrente() == idConta){
+					contas.remove(i);
+					clienteRemovido = true;
+					break;
+				}
+			}
+			
+			return clienteRemovido;
 	}
 
 	/*
@@ -67,27 +81,23 @@ public class ContaCorrenteServiceImpl implements ContaCorrenteService {
 	 * adiciona na conta destino
 	 */
 	@Override
-	public boolean transfere(double valor, int idUsuarioOrigem, int idUsuarioDestino) {
-		usuarioService = new UsuarioServiceImpl();
-		boolean sucesso = false;
-		double saldo = 0.0;
+	public boolean transfere(double valor, int idContaOrigem, int idContaDestino) {
 
-		Usuario usuarioOrigem = this.usuarioService.pesquisarUsuario(idUsuarioOrigem);
-		Usuario usuarioDestino = this.usuarioService.pesquisarUsuario(idUsuarioDestino);
-		ContaCorrente contaOrigem = pesquisarConta(usuarioOrigem.getIdContaCorrente());
-		ContaCorrente contaDestino = pesquisarConta(usuarioDestino.getIdContaCorrente());
+		boolean sucesso = false;
+		
+		ContaCorrente contaOrigem = pesquisarConta(idContaOrigem);
+		ContaCorrente contaDestino = pesquisarConta(idContaDestino);
 
 		if (contaOrigem.getStatusConta() == true) {
 			sucesso = true;
-			saldo -= valor;
-			contaOrigem.setSaldo(saldo);
+			contaOrigem.setSaldo(contaOrigem.getSaldo()-valor); 
+		
 		} else {
 			return contaOrigem.getStatusConta();
 		}
 		if (contaDestino.getStatusConta() == true) {
 			sucesso = true;
-			saldo += valor;
-			contaDestino.setSaldo(saldo);
+			contaDestino.setSaldo(contaDestino.getSaldo()+valor);
 		} else {
 			return contaDestino.getStatusConta();
 		}

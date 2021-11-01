@@ -11,7 +11,7 @@ public interface ContaCorrenteService {
      
 	List<ContaCorrente> listarContas();
 
-	ContaCorrente adicionarConta(ContaCorrente contaCorrente);
+	boolean adicionarConta(ContaCorrente contaCorrente);
 
 	ContaCorrente pesquisarConta(int idConta);
 

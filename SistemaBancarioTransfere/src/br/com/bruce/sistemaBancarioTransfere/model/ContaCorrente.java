@@ -38,7 +38,9 @@ public class ContaCorrente {
 
 	@Override
 	public String toString() {
-		return "idContaCorrente: " + idContaCorrente + "/n saldo: " + saldo + "/n statusConta: " + statusConta;
+		return "\n idContaCorrente: "+ idContaCorrente 
+	    + "\n saldo: " + saldo 
+	    + "\n statusConta: " + (statusConta?"Ativo\n":"Inativo\n");
 	}
 
 }

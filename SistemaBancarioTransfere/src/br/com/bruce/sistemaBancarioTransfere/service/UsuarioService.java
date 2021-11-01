@@ -17,7 +17,7 @@ public interface UsuarioService {
 
 	Usuario pesquisarUsuario(int id);
 
-	boolean removerUsuario(int id);
+	boolean remover(int id);
 
 	boolean desativarUsuario(int id);
 
