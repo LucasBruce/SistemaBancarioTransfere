@@ -23,7 +23,8 @@ public class ContaCorrenteServiceTest {
     private ContaCorrenteServiceImpl contaService;
     private UsuarioServiceImpl usuarioService;
     private ContaCorrente contaBenicio;
-	
+	private ContaCorrente contaHernesto;
+    
 	@Before
 	public void setUp() {
 		//Cenário de teste 
@@ -38,8 +39,8 @@ public class ContaCorrenteServiceTest {
 		usuarios.add(Hernesto);
 		usuarios.add(Joseph);
 		
-		ContaCorrente contaBenicio = new ContaCorrente(1, 100.0, true);
-		ContaCorrente contaHernesto = new ContaCorrente(2, 100.0, true);
+		contaBenicio = new ContaCorrente(1, 100.0, true);
+		contaHernesto = new ContaCorrente(2, 100.0, true);
 		ContaCorrente contaJoseph = new ContaCorrente(3, 100.0, true);
 		
 		contas.add(contaBenicio);
@@ -90,6 +91,19 @@ public class ContaCorrenteServiceTest {
 		
 		//verificação
 		assertTrue(contaFoiRemovida);
+	}
+	
+	@Test
+	public void transfereValorDeUmaContaParaOutra() {
+		
+		//execução
+		this.contaService.transfere(50, 1, 2);
+		
+		//verificação
+		assertThat(this.contaBenicio.getSaldo(), is(50.0));
+		
+		assertThat(this.contaHernesto.getSaldo(), is(150.0));
+
 	}
 
 

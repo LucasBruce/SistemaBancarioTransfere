@@ -19,9 +19,9 @@ public interface UsuarioService {
 
 	boolean remover(int id);
 
-	boolean desativarUsuario(int id);
+	void desativarUsuario(int id);
 
-	boolean ativarUsuario(int id);
+	void ativarUsuario(int id);
 
 	boolean validarIdade(int idade) throws IdadeNaoPermitidaException;
 }

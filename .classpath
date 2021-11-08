@@ -8,5 +8,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
+	<classpathentry kind="lib" path="/home/lucas/Documents/workspace-spring-tool-suite-4-4.12.0.RELEASE/SistemaBancario/hamcrest-core-1.3.jar"/>
 	<classpathentry kind="output" path="SistemaBancarioTransfere/bin"/>
 </classpath>

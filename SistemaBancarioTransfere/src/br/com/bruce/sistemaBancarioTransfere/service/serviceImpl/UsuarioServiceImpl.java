@@ -85,7 +85,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	 * id passado como parametro
 	 */
 	@Override
-	public boolean desativarUsuario(int id) {
+	public void desativarUsuario(int id) {
 		boolean status = false;
 		ContaCorrenteServiceImpl contaService = new ContaCorrenteServiceImpl(contas, usuarios);
 		Usuario usuario = pesquisarUsuario(id);
@@ -98,7 +98,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 			conta.setStatusConta(status);
 
 		}
-		return status;
+		
 	}
 
 	/*
@@ -106,21 +106,20 @@ public class UsuarioServiceImpl implements UsuarioService {
 	 * parametro para pesquisar o usuario
 	 */
 	@Override
-	public boolean ativarUsuario(int id) {
-		boolean status = false;
+	public void ativarUsuario(int id) {
+		boolean status = true;
 		ContaCorrenteServiceImpl contaService = new ContaCorrenteServiceImpl(contas, usuarios);
 		Usuario usuario = pesquisarUsuario(id);
 		ContaCorrente conta = contaService.pesquisarConta(id);
 		if (usuario.getStatus() == false) {
-			usuario.setStatus(true);
+			usuario.setStatus(status);
 			status = usuario.getStatus();
 
 		}
 		if (conta.getStatusConta() == false) {
-			conta.setStatusConta(true);
+			conta.setStatusConta(status);
 
-		}
-		return status;
+		}		
 	}
 
 	/*
@@ -129,9 +128,13 @@ public class UsuarioServiceImpl implements UsuarioService {
 	 */
 	@Override
 	public boolean validarIdade(int idade) throws IdadeNaoPermitidaException {
-		if (idade < 18 || idade > 65)
-			throw new IdadeNaoPermitidaException(IdadeNaoPermitidaException.MSG_IDADE_INVALIDA);
-		return true;
+		if (idade < 18 || idade > 65) {
+			throw new IdadeNaoPermitidaException("Idade inserida não é válida!");	
+		}else {
+			return false;	
+		}
+		
+		
 
 	}
 
